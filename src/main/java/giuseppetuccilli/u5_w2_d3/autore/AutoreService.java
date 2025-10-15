@@ -38,12 +38,16 @@ public class AutoreService {
         } else {
             throw new InvalidDateStringExeption(data);
         }
-        String[] dataArray = dataString.split("-");
-        int anno = Integer.parseInt(dataArray[0]);
-        int mese = Integer.parseInt(dataArray[1]);
-        int giorno = Integer.parseInt(dataArray[2]);
-        LocalDate dataNascita = LocalDate.of(anno, mese, giorno);
-        return dataNascita;
+        try {
+            String[] dataArray = dataString.split("-");
+            int anno = Integer.parseInt(dataArray[0]);
+            int mese = Integer.parseInt(dataArray[1]);
+            int giorno = Integer.parseInt(dataArray[2]);
+            LocalDate dataNascita = LocalDate.of(anno, mese, giorno);
+            return dataNascita;
+        } catch (Exception ex) {
+            throw new BadRequestExeption("data non valida");
+        }
 
     }
 
