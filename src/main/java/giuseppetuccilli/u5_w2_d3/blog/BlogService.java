@@ -4,6 +4,9 @@ import giuseppetuccilli.u5_w2_d3.autore.Autore;
 import giuseppetuccilli.u5_w2_d3.autore.AutoreService;
 import giuseppetuccilli.u5_w2_d3.exeptions.NotFoundExeption;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -18,8 +21,9 @@ public class BlogService {
     @Autowired
     private BlogRepository blogRepository;
 
-    public List<Blog> findAll() {
-        return blogRepository.findAll();
+    public Page<Blog> findAll(int pageNumber) {
+        Pageable pg = PageRequest.of(pageNumber, 10);
+        return blogRepository.findAll(pg);
     }
 
     public Blog saveBlog(BlogPayload payload) {

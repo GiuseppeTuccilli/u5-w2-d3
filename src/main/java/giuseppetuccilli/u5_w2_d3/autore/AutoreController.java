@@ -1,9 +1,8 @@
 package giuseppetuccilli.u5_w2_d3.autore;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/autori")
@@ -12,8 +11,8 @@ public class AutoreController {
     private AutoreService autoreService;
 
     @GetMapping
-    public List<Autore> getAutori() {
-        return autoreService.fidAll();
+    public Page<Autore> getAutori(@RequestParam(defaultValue = "0") int pageNumber) {
+        return autoreService.fidAll(pageNumber);
     }
 
     @GetMapping("/{autId}")

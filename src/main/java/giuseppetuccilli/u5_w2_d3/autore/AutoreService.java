@@ -1,9 +1,14 @@
 package giuseppetuccilli.u5_w2_d3.autore;
 
+import giuseppetuccilli.u5_w2_d3.blog.Blog;
+import giuseppetuccilli.u5_w2_d3.blog.BlogRepository;
 import giuseppetuccilli.u5_w2_d3.exeptions.BadRequestExeption;
 import giuseppetuccilli.u5_w2_d3.exeptions.InvalidDateStringExeption;
 import giuseppetuccilli.u5_w2_d3.exeptions.NotFoundExeption;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -14,10 +19,13 @@ import java.util.Optional;
 public class AutoreService {
     @Autowired
     private AutoreRepository autoreRepository;
+    @Autowired
+    private BlogRepository blogRepository;
 
 
-    public List<Autore> fidAll() {
-        return autoreRepository.findAll();
+    public Page<Autore> fidAll(int pageNumber) {
+        Pageable pg = PageRequest.of(pageNumber, 10);
+        return autoreRepository.findAll(pg);
     }
 
     //prende la data in stringa dal json e ritorna localdate
@@ -79,6 +87,12 @@ public class AutoreService {
 
     public void deleteAutore(int id) {
         Autore found = findById(id);
+        List<Blog> blogList = blogRepository.findByAutore(found);
+        if (!blogList.isEmpty()) {
+            for (int i = 0; i < blogList.size(); i++) {
+                blogRepository.delete(blogList.get(i));
+            }
+        }
         autoreRepository.delete(found);
         System.out.println("autore eliminato");
     }

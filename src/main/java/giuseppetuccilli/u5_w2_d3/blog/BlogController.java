@@ -1,10 +1,9 @@
 package giuseppetuccilli.u5_w2_d3.blog;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/blogs")
@@ -13,8 +12,8 @@ public class BlogController {
     private BlogService blogService;
 
     @GetMapping
-    public List<Blog> getBlogs() {
-        return blogService.findAll();
+    public Page<Blog> getBlogs(@RequestParam(defaultValue = "0") int pageNumber) {
+        return blogService.findAll(pageNumber);
     }
 
     @GetMapping("/{blogId}")

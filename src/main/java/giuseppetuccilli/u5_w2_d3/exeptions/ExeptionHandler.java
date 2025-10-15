@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import java.time.DateTimeException;
 import java.time.LocalDate;
 
 @RestControllerAdvice
@@ -19,5 +20,11 @@ public class ExeptionHandler {
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public ErrorsPayload handleNotFound(NotFoundExeption ex) {
         return new ErrorsPayload(ex.getMessage(), LocalDate.now());
+    }
+
+    @ExceptionHandler(DateTimeException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ErrorsPayload handleDateEr() {
+        return new ErrorsPayload("data non valida - data errore: ", LocalDate.now());
     }
 }
