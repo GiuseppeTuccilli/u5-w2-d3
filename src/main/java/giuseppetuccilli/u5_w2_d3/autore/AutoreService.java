@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -16,7 +15,6 @@ public class AutoreService {
     @Autowired
     private AutoreRepository autoreRepository;
 
-    private List<Autore> autList = new ArrayList<Autore>();
 
     public List<Autore> fidAll() {
         return autoreRepository.findAll();
